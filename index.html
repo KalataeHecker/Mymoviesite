@@ -61,6 +61,7 @@
         .film-item a {
             text-decoration: none;
             color: #4CAF50;
+            margin-right: 10px; /* Add space between links */
         }
 
         .film-item a:hover {
@@ -71,6 +72,15 @@
             width: 100%; /* Full width for the video player */
             border-radius: 5px;
             margin-top: 10px;
+        }
+
+        .remove-button {
+            background-color: #f44336; /* Red background for the remove button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -120,6 +130,7 @@
                 <div>
                     <a href="${URL.createObjectURL(file)}" download>Download</a>
                     <button onclick="playFilm('${URL.createObjectURL(file)}')">Watch</button>
+                    <button class="remove-button" onclick="removeFilm(this)">Remove</button>
                 </div>
             `;
             uploadedFilmsDiv.appendChild(filmItem);
@@ -144,6 +155,17 @@
                 videoPlayer.src = fileURL;
                 videoPlayerContainer.style.display = 'block'; // Show the video player
                 videoPlayer.play(); // Play the video
+            }
+        }
+
+        // Function to remove the film after password confirmation
+        function removeFilm(button) {
+            const password = prompt('Enter password to remove the film:');
+            if (password === 'asd') {
+                const filmItem = button.parentElement.parentElement;
+                filmItem.remove();
+            } else {
+                alert('Incorrect password. Film not removed.');
             }
         }
     </script>
