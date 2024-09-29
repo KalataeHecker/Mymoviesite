@@ -87,18 +87,10 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
         }
 
         .movie-item:hover {
             background-color: #f0f0f0;
-        }
-
-        .movie-thumbnail {
-            width: 70px; /* Adjusted width for better visibility */
-            height: auto;
-            margin-right: 15px; /* Increased space between picture and title */
         }
 
         .movie-details {
@@ -123,11 +115,11 @@
         <div class="dropdown" onclick="toggleDropdown()">
             <button class="dropbtn">Genre</button>
             <div class="dropdown-content" id="dropdownMenu">
-                <a href="#action" onclick="scrollToGenre('action')">Action</a>
-                <a href="#comedy" onclick="scrollToGenre('comedy')">Comedy</a>
-                <a href="#drama" onclick="scrollToGenre('drama')">Drama</a>
-                <a href="#horror" onclick="scrollToGenre('horror')">Horror</a>
-                <a href="#adventure" onclick="scrollToGenre('adventure')">Adventure</a>
+                <a href="#action">Action</a>
+                <a href="#comedy">Comedy</a>
+                <a href="#drama">Drama</a>
+                <a href="#horror">Horror</a>
+                <a href="#adventure">Adventure</a>
             </div>
         </div>
 
@@ -145,63 +137,92 @@
     <div id="movieSection">
         <div id="action" class="movie-list">
             <h2>Action Movies</h2>
-            <div class="movie-item" onclick="showDetails('dieHard')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/7/72/Die_Hard.jpg" alt="Die Hard" class="movie-thumbnail">Die Hard
-            </div>
-            <div class="movie-item" onclick="showDetails('madMax')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/c/c7/Mad_Max_Fury_Road.jpg" alt="Mad Max: Fury Road" class="movie-thumbnail">Mad Max: Fury Road
-            </div>
-            <div class="movie-item" onclick="showDetails('johnWick')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/9/98/John_Wick_2014_poster.jpg" alt="John Wick" class="movie-thumbnail">John Wick
-            </div>
+            <div class="movie-item" onclick="showDetails('dieHard')">Die Hard</div>
+            <div class="movie-item" onclick="showDetails('madMax')">Mad Max: Fury Road</div>
+            <div class="movie-item" onclick="showDetails('johnWick')">John Wick</div>
         </div>
 
         <div id="comedy" class="movie-list">
             <h2>Comedy Movies</h2>
-            <div class="movie-item" onclick="showDetails('superbad')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/8/85/Superbad_Poster.jpg" alt="Superbad" class="movie-thumbnail">Superbad
-            </div>
-            <div class="movie-item" onclick="showDetails('stepBrothers')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/e/e2/Step_Brothers_poster.jpg" alt="Step Brothers" class="movie-thumbnail">Step Brothers
-            </div>
-            <div class="movie-item" onclick="showDetails('groundhogDay')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/c/c0/Groundhog_Day_Poster.jpg" alt="Groundhog Day" class="movie-thumbnail">Groundhog Day
-            </div>
+            <div class="movie-item" onclick="showDetails('superbad')">Superbad</div>
+            <div class="movie-item" onclick="showDetails('stepBrothers')">Step Brothers</div>
+            <div class="movie-item" onclick="showDetails('groundhogDay')">Groundhog Day</div>
         </div>
 
         <div id="drama" class="movie-list">
             <h2>Drama Movies</h2>
-            <div class="movie-item" onclick="showDetails('shawshank')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg" alt="The Shawshank Redemption" class="movie-thumbnail">The Shawshank Redemption
-            </div>
-            <div class="movie-item" onclick="showDetails('forrestGump')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg" alt="Forrest Gump" class="movie-thumbnail">Forrest Gump
-            </div>
-            <div class="movie-item" onclick="showDetails('godfather')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_sal.jpg" alt="The Godfather" class="movie-thumbnail">The Godfather
-            </div>
+            <div class="movie-item" onclick="showDetails('shawshank')">The Shawshank Redemption</div>
+            <div class="movie-item" onclick="showDetails('forrestGump')">Forrest Gump</div>
+            <div class="movie-item" onclick="showDetails('godfather')">The Godfather</div>
         </div>
 
         <div id="horror" class="movie-list">
             <h2>Horror Movies</h2>
-            <div class="movie-item" onclick="showDetails('theShining')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/3/3c/The_Shining_poster.jpg" alt="The Shining" class="movie-thumbnail">The Shining
-            </div>
-            <div class="movie-item" onclick="showDetails('getOut')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/5/5b/Get_Out_Poster.jpg" alt="Get Out" class="movie-thumbnail">Get Out
-            </div>
-            <div class="movie-item" onclick="showDetails('nightmare')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/5/57/A_Nightmare_on_Elm_Street_poster.jpg" alt="A Nightmare on Elm Street" class="movie-thumbnail">A Nightmare on Elm Street
-            </div>
+            <div class="movie-item" onclick="showDetails('theShining')">The Shining</div>
+            <div class="movie-item" onclick="showDetails('getOut')">Get Out</div>
+            <div class="movie-item" onclick="showDetails('nightmare')">A Nightmare on Elm Street</div>
         </div>
 
         <div id="adventure" class="movie-list">
             <h2>Adventure Movies</h2>
-            <div class="movie-item" onclick="showDetails('jurassicPark1')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/e/eb/Jurassic_Park_poster.jpg" alt="Jurassic Park" class="movie-thumbnail">Jurassic Park
-            </div>
-            <div class="movie-item" onclick="showDetails('jurassicPark2')">
-                <img src="https://upload.wikimedia.org/wikipedia/en/b/bf/The_Lost_World_Jurassic_Park_poster.jpg" alt="The Lost World: Jurassic Park" class="movie-thumbnail">The Lost World: Jurassic Park
-            </div>
-            <div class="movie-item" onclick="showDetails('jurassicPark3')">
-                <img
+            <div class="movie-item" onclick="showDetails('lotr')">The Lord of the Rings: The Fellowship of the Ring</div>
+            <div class="movie-item" onclick="showDetails('jurassicPark')">Jurassic Park</div>
+            <div class="movie-item" onclick="showDetails('indianaJones')">Indiana Jones: Raiders of the Lost Ark</div>
+        </div>
+    </div>
+
+    <!-- Movie Details Section -->
+    <div id="movieDetails" class="movie-details"></div>
+
+    <script>
+        // Function to toggle dropdown menu
+        function toggleDropdown() {
+            document.querySelector('.dropdown').classList.toggle('open');
+        }
+
+        // Function to show movie details
+        function showDetails(movie) {
+            let details = {
+                dieHard: {
+                    title: "Die Hard",
+                    description: "An NYPD officer tries to save his wife and several others taken hostage by German terrorists during a Christmas party.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/7/72/Die_Hard.jpg"
+                },
+                madMax: {
+                    title: "Mad Max: Fury Road",
+                    description: "In a post-apocalyptic wasteland, Max teams up with a mysterious woman to escape a tyrant and his army.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/c/c7/Mad_Max_Fury_Road.jpg"
+                },
+                johnWick: {
+                    title: "John Wick",
+                    description: "An ex-hitman comes out of retirement to track down the gangsters that killed his dog and took everything from him.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/9/98/John_Wick_2014_poster.jpg"
+                },
+                superbad: {
+                    title: "Superbad",
+                    description: "Two high school friends plan to attend a party and aim to make the most of their last days before graduation.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/8/85/Superbad_Poster.jpg"
+                },
+                stepBrothers: {
+                    title: "Step Brothers",
+                    description: "Two middle-aged slackers become stepbrothers when their single parents marry each other.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/e/e2/Step_Brothers_poster.jpg"
+                },
+                groundhogDay: {
+                    title: "Groundhog Day",
+                    description: "A weatherman finds himself inexplicably living the same day over and over again.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/c/c0/Groundhog_Day_Poster.jpg"
+                },
+                shawshank: {
+                    title: "The Shawshank Redemption",
+                    description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg"
+                },
+                forrestGump: {
+                    title: "Forrest Gump",
+                    description: "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold through the perspective of an Alabama man with an IQ of 75.",
+                    image: "https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg"
+                },
+                godfather: {
+                    title: "The Godfather",
+                    description: "The aging patriarch of an organized crime dynasty transfers
