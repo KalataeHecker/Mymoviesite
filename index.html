@@ -95,6 +95,17 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+
+        .watch-button {
+            background-color: #2196F3; /* Blue background for the watch button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            text-align: center;
+            width: 80px; /* Fixed width */
+        }
     </style>
 </head>
 <body>
@@ -150,7 +161,7 @@
                 <span>${fileName}</span>
                 <div>
                     <a href="${URL.createObjectURL(file)}" download>Download</a>
-                    <button onclick="playFilm('${URL.createObjectURL(file)}')">Watch</button>
+                    <button class="watch-button" onclick="playFilm('${URL.createObjectURL(file)}')">Watch</button>
                     <button class="remove-button" onclick="removeFilm(this)">Remove</button>
                 </div>
             `;
