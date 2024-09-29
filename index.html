@@ -30,9 +30,18 @@
         }
 
         input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            display: none; /* Hide the default file input */
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            border-radius: 25px; /* Rounded edges */
+            text-align: center;
+            font-weight: bold;
         }
 
         .uploaded-films {
@@ -71,8 +80,11 @@
         <h2>Upload, Download & Watch Films</h2>
 
         <div class="upload-section">
-            <input type="file" id="fileInput" accept="video/*">
-            <button onclick="uploadFilm()">Upload Film</button>
+            <label class="custom-file-upload">
+                Select File
+                <input type="file" id="fileInput" accept="video/*">
+            </label>
+            <button class="custom-file-upload" onclick="uploadFilm()">Upload Film</button>
         </div>
 
         <div class="uploaded-films" id="uploadedFilms">
@@ -116,14 +128,23 @@
             fileInput.value = '';
         }
 
-        // Function to play the selected film
+        // Function to play or pause the selected film
         function playFilm(fileURL) {
             const videoPlayer = document.getElementById('videoPlayer');
             const videoPlayerContainer = document.getElementById('videoPlayerContainer');
 
-            videoPlayer.src = fileURL;
-            videoPlayerContainer.style.display = 'block'; // Show the video player
-            videoPlayer.play(); // Play the video
+            // If the video is already playing, pause it
+            if (videoPlayer.src === fileURL) {
+                if (videoPlayer.paused) {
+                    videoPlayer.play(); // Play if paused
+                } else {
+                    videoPlayer.pause(); // Pause if playing
+                }
+            } else {
+                videoPlayer.src = fileURL;
+                videoPlayerContainer.style.display = 'block'; // Show the video player
+                videoPlayer.play(); // Play the video
+            }
         }
     </script>
 </body>
