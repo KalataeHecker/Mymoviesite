@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Movie Collection</title>
+    <title>Film Upload and Download</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,180 +12,91 @@
             padding: 20px;
         }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .upload-section {
             margin-bottom: 20px;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropbtn {
-            background-color: #4CAF50;
-            color: white;
+        input[type="file"] {
+            width: 100%;
             padding: 10px;
-            border: none;
-            border-radius: 25px; /* Rounded rectangle */
-            cursor: pointer;
-            font-size: 16px;
+            margin: 10px 0;
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            z-index: 1;
-            margin-top: 5px;
-            border-radius: 5px;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 10px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown.open .dropdown-content {
-            display: block;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .search-container input[type="text"] {
-            padding: 10px;
-            margin-right: 5px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-        }
-
-        .movie-list {
+        .uploaded-films {
             margin-top: 20px;
         }
 
-        .movie-item {
-            margin: 5px 0;
+        .film-item {
             padding: 10px;
-            background-color: white;
             border: 1px solid #ccc;
             border-radius: 5px;
+            margin: 5px 0;
         }
 
-        .center-image img {
-            max-width: 100px;
-            border-radius: 50%;
+        .film-item a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+
+        .film-item a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navbar with dropdown, search bar, and image -->
-    <div class="navbar">
-        <div class="dropdown" onclick="toggleDropdown()">
-            <button class="dropbtn">Genre</button>
-            <div class="dropdown-content" id="dropdownMenu">
-                <a href="#action">Action</a>
-                <a href="#comedy">Comedy</a>
-                <a href="#drama">Drama</a>
-                <a href="#horror">Horror</a>
-                <a href="#adventure">Adventure</a>
-            </div>
+    <div class="container">
+        <h2>Upload and Download Films</h2>
+
+        <div class="upload-section">
+            <input type="file" id="fileInput" accept="video/*">
+            <button onclick="uploadFilm()">Upload Film</button>
         </div>
 
-        <div class="center-image">
-            <img src="https://place.dog/100/100" alt="Dog">
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for movies...">
-            <button onclick="searchMovies()">Search</button>
-        </div>
-    </div>
-
-    <!-- Movie List Section -->
-    <div id="movieSection">
-        <div id="action" class="movie-list">
-            <h2>Action Movies</h2>
-            <div class="movie-item">Die Hard</div>
-            <div class="movie-item">Mad Max: Fury Road</div>
-            <div class="movie-item">John Wick</div>
-            <div class="movie-item">Gran Turismo</div>
-        </div>
-
-        <div id="comedy" class="movie-list">
-            <h2>Comedy Movies</h2>
-            <div class="movie-item">Superbad</div>
-            <div class="movie-item">Step Brothers</div>
-            <div class="movie-item">Groundhog Day</div>
-        </div>
-
-        <div id="drama" class="movie-list">
-            <h2>Drama Movies</h2>
-            <div class="movie-item">The Shawshank Redemption</div>
-            <div class="movie-item">Forrest Gump</div>
-            <div class="movie-item">The Godfather</div>
-        </div>
-
-        <div id="horror" class="movie-list">
-            <h2>Horror Movies</h2>
-            <div class="movie-item">The Shining</div>
-            <div class="movie-item">Get Out</div>
-            <div class="movie-item">A Nightmare on Elm Street</div>
-        </div>
-
-        <div id="adventure" class="movie-list">
-            <h2>Adventure Movies</h2>
-            <div class="movie-item">The Lord of the Rings: The Fellowship of the Ring</div>
-            <div class="movie-item">Jurassic Park</div>
-            <div class="movie-item">Jurassic Park 2</div>
-            <div class="movie-item">Jurassic Park 3</div>
-            <div class="movie-item">Jurassic World: Domination</div>
-            <div class="movie-item">Indiana Jones: Raiders of the Lost Ark</div>
+        <div class="uploaded-films" id="uploadedFilms">
+            <h3>Uploaded Films</h3>
+            <!-- Uploaded films will be displayed here -->
         </div>
     </div>
 
     <script>
-        // Function to toggle dropdown menu
-        function toggleDropdown() {
-            document.querySelector('.dropdown').classList.toggle('open');
-        }
+        // Function to handle film uploads
+        function uploadFilm() {
+            const fileInput = document.getElementById('fileInput');
+            const uploadedFilmsDiv = document.getElementById('uploadedFilms');
 
-        // Function to search movies
-        function searchMovies() {
-            var input = document.getElementById('searchInput').value.toLowerCase();
-            var movieItems = document.querySelectorAll('.movie-item');
-            movieItems.forEach(function(movie) {
-                if (movie.textContent.toLowerCase().includes(input)) {
-                    movie.style.display = '';
-                } else {
-                    movie.style.display = 'none';
-                }
-            });
-        }
-
-        // Close dropdown when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.style.display === "block") {
-                        openDropdown.style.display = "none";
-                    }
-                }
+            if (fileInput.files.length === 0) {
+                alert('Please select a film to upload.');
+                return;
             }
+
+            const file = fileInput.files[0];
+            const fileName = file.name;
+
+            // Create a download link for the uploaded file
+            const filmItem = document.createElement('div');
+            filmItem.className = 'film-item';
+            filmItem.innerHTML = `
+                <span>${fileName}</span>
+                <a href="${URL.createObjectURL(file)}" download> Download</a>
+            `;
+            uploadedFilmsDiv.appendChild(filmItem);
+
+            // Clear the file input
+            fileInput.value = '';
         }
     </script>
 </body>
