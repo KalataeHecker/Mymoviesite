@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Film Upload and Download</title>
+    <title>Film Upload, Download & Watch</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,6 +44,9 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .film-item a {
@@ -54,12 +57,18 @@
         .film-item a:hover {
             text-decoration: underline;
         }
+
+        video {
+            width: 100%; /* Full width for the video player */
+            border-radius: 5px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Upload and Download Films</h2>
+        <h2>Upload, Download & Watch Films</h2>
 
         <div class="upload-section">
             <input type="file" id="fileInput" accept="video/*">
@@ -69,6 +78,11 @@
         <div class="uploaded-films" id="uploadedFilms">
             <h3>Uploaded Films</h3>
             <!-- Uploaded films will be displayed here -->
+        </div>
+
+        <div id="videoPlayerContainer" style="display: none;">
+            <h3>Now Playing</h3>
+            <video id="videoPlayer" controls></video>
         </div>
     </div>
 
@@ -91,12 +105,25 @@
             filmItem.className = 'film-item';
             filmItem.innerHTML = `
                 <span>${fileName}</span>
-                <a href="${URL.createObjectURL(file)}" download> Download</a>
+                <div>
+                    <a href="${URL.createObjectURL(file)}" download>Download</a>
+                    <button onclick="playFilm('${URL.createObjectURL(file)}')">Watch</button>
+                </div>
             `;
             uploadedFilmsDiv.appendChild(filmItem);
 
             // Clear the file input
             fileInput.value = '';
+        }
+
+        // Function to play the selected film
+        function playFilm(fileURL) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoPlayerContainer = document.getElementById('videoPlayerContainer');
+
+            videoPlayer.src = fileURL;
+            videoPlayerContainer.style.display = 'block'; // Show the video player
+            videoPlayer.play(); // Play the video
         }
     </script>
 </body>
