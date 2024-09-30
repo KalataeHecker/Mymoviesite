@@ -33,7 +33,7 @@
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 25px; /* Rounded edges */
+            border-radius: 25px;
             font-size: 16px;
             box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
@@ -42,17 +42,13 @@
             margin-bottom: 20px;
         }
 
-        input[type="file"] {
-            display: none; /* Hide the default file input */
-        }
-
         .custom-file-upload {
             display: inline-block;
             padding: 10px 20px;
             cursor: pointer;
-            background-color: #4CAF50; /* Green background */
+            background-color: #4CAF50;
             color: white;
-            border-radius: 25px; /* Rounded edges */
+            border-radius: 25px;
             text-align: center;
             font-weight: bold;
         }
@@ -74,21 +70,15 @@
         .film-item a {
             text-decoration: none;
             color: #4CAF50;
-            margin-right: 10px; /* Add space between links */
+            margin-right: 10px;
         }
 
         .film-item a:hover {
             text-decoration: underline;
         }
 
-        video {
-            width: 100%; /* Full width for the video player */
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
         .remove-button {
-            background-color: #f44336; /* Red background for the remove button */
+            background-color: #f44336;
             color: white;
             border: none;
             border-radius: 5px;
@@ -97,14 +87,14 @@
         }
 
         .watch-button {
-            background-color: #2196F3; /* Blue background for the watch button */
+            background-color: #2196F3;
             color: white;
             border: none;
             border-radius: 5px;
             padding: 5px 10px;
             cursor: pointer;
             text-align: center;
-            width: 80px; /* Fixed width */
+            width: 80px;
         }
     </style>
 </head>
@@ -120,85 +110,76 @@
 
         <div class="upload-section">
             <label class="custom-file-upload">
-                Select File
-                <input type="file" id="fileInput" accept="video/*">
+                Add Link
             </label>
-            <button class="custom-file-upload" onclick="uploadFilm()">Upload Film</button>
+            <button class="custom-file-upload" onclick="addFilmLink()">Add Film Link</button>
         </div>
 
         <div class="uploaded-films" id="uploadedFilms">
             <h3>Uploaded Films</h3>
             <!-- Uploaded films will be displayed here -->
         </div>
-
-        <div id="videoPlayerContainer" style="display: none;">
-            <h3>Now Playing</h3>
-            <video id="videoPlayer" controls></video>
-        </div>
     </div>
 
     <script>
-        const uploadedFilms = [];
+        const uploadedFilms = JSON.parse(localStorage.getItem('uploadedFilms')) || []; // Load films from localStorage or start empty
 
-        // Function to handle film uploads
-        function uploadFilm() {
-            const fileInput = document.getElementById('fileInput');
-            const uploadedFilmsDiv = document.getElementById('uploadedFilms');
-
-            if (fileInput.files.length === 0) {
-                alert('Please select a film to upload.');
+        // Function to handle film link addition
+        function addFilmLink() {
+            const filmName = prompt('Enter the film name:');
+            if (!filmName) {
+                alert('Please provide a valid film name.');
                 return;
             }
 
-            const file = fileInput.files[0];
-            const fileName = file.name;
+            const cloudURL = prompt('Enter the cloud URL of the film (e.g., Google Drive, S3):');
+            if (!cloudURL) {
+                alert('Please provide a valid cloud URL.');
+                return;
+            }
 
-            // Create a download link for the uploaded file
-            const filmItem = document.createElement('div');
-            filmItem.className = 'film-item';
-            filmItem.setAttribute('data-name', fileName.toLowerCase()); // Store the name for searching
-            filmItem.innerHTML = `
-                <span>${fileName}</span>
-                <div>
-                    <a href="${URL.createObjectURL(file)}" download>Download</a>
-                    <button class="watch-button" onclick="playFilm('${URL.createObjectURL(file)}')">Watch</button>
-                    <button class="remove-button" onclick="removeFilm(this)">Remove</button>
-                </div>
-            `;
-            uploadedFilmsDiv.appendChild(filmItem);
-            uploadedFilms.push(fileName.toLowerCase()); // Keep track of the uploaded film names
+            // Add the film to the list with its cloud URL
+            const filmData = {
+                name: filmName,
+                url: cloudURL
+            };
 
-            // Clear the file input
-            fileInput.value = '';
+            uploadedFilms.push(filmData);
+            localStorage.setItem('uploadedFilms', JSON.stringify(uploadedFilms)); // Save films to localStorage
+
+            displayUploadedFilms(); // Refresh the displayed list
         }
 
-        // Function to play or pause the selected film
-        function playFilm(fileURL) {
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoPlayerContainer = document.getElementById('videoPlayerContainer');
+        // Function to display uploaded films
+        function displayUploadedFilms() {
+            const uploadedFilmsDiv = document.getElementById('uploadedFilms');
+            uploadedFilmsDiv.innerHTML = '<h3>Uploaded Films</h3>'; // Reset the films list
 
-            // If the video is already playing, pause it
-            if (videoPlayer.src === fileURL) {
-                if (videoPlayer.paused) {
-                    videoPlayer.play(); // Play if paused
-                } else {
-                    videoPlayer.pause(); // Pause if playing
-                }
-            } else {
-                videoPlayer.src = fileURL;
-                videoPlayerContainer.style.display = 'block'; // Show the video player
-                videoPlayer.play(); // Play the video
-            }
+            uploadedFilms.forEach((film, index) => {
+                const filmItem = document.createElement('div');
+                filmItem.className = 'film-item';
+                filmItem.setAttribute('data-name', film.name.toLowerCase()); // Store the name for searching
+                filmItem.innerHTML = `
+                    <span>${film.name}</span>
+                    <div>
+                        <a href="${film.url}" download>Download</a>
+                        <button class="watch-button" onclick="window.open('${film.url}', '_blank')">Watch</button>
+                        <button class="remove-button" onclick="removeFilm(${index})">Remove</button>
+                    </div>
+                `;
+                uploadedFilmsDiv.appendChild(filmItem);
+            });
         }
 
         // Function to remove the film after password confirmation
-        function removeFilm(button) {
+        function removeFilm(index) {
             const password = prompt('Enter password to remove the film:');
             if (password === 'asd') {
-                const filmItem = button.parentElement.parentElement;
-                filmItem.remove();
+                uploadedFilms.splice(index, 1); // Remove the film from the array
+                localStorage.setItem('uploadedFilms', JSON.stringify(uploadedFilms)); // Update localStorage
+                displayUploadedFilms(); // Refresh the displayed list
             } else {
-                alert('Incorrect password. Film not removed.');
+                alert('Incorrect password. Link not removed.');
             }
         }
 
@@ -212,6 +193,11 @@
                 item.style.display = filmName.includes(query) ? '' : 'none';
             });
         }
+
+        // Display uploaded films on page load
+        window.onload = function() {
+            displayUploadedFilms();
+        };
     </script>
 </body>
 </html>
