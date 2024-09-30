@@ -96,6 +96,11 @@
             text-align: center;
             width: 80px;
         }
+
+        .genre {
+            font-style: italic;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -138,10 +143,21 @@
                 return;
             }
 
-            // Add the film to the list with its cloud URL
+            // Ask the user to select a genre
+            const genres = ['Action', 'Comedy', 'Drama', 'Horror', 'Adventure'];
+            let genre = prompt('Select a genre by entering the number:\n1. Action\n2. Comedy\n3. Drama\n4. Horror\n5. Adventure');
+
+            if (!genre || genre < 1 || genre > 5) {
+                alert('Please provide a valid genre selection.');
+                return;
+            }
+            genre = genres[genre - 1]; // Convert the user input to the corresponding genre
+
+            // Add the film to the list with its cloud URL and genre
             const filmData = {
                 name: filmName,
-                url: cloudURL
+                url: cloudURL,
+                genre: genre
             };
 
             uploadedFilms.push(filmData);
@@ -159,8 +175,10 @@
                 const filmItem = document.createElement('div');
                 filmItem.className = 'film-item';
                 filmItem.setAttribute('data-name', film.name.toLowerCase()); // Store the name for searching
+                filmItem.setAttribute('data-genre', film.genre.toLowerCase()); // Store the genre for filtering
+
                 filmItem.innerHTML = `
-                    <span>${film.name}</span>
+                    <span>${film.name} <span class="genre">(${film.genre})</span></span>
                     <div>
                         <a href="${film.url}" download>Download</a>
                         <button class="watch-button" onclick="window.open('${film.url}', '_blank')">Watch</button>
@@ -179,7 +197,7 @@
                 localStorage.setItem('uploadedFilms', JSON.stringify(uploadedFilms)); // Update localStorage
                 displayUploadedFilms(); // Refresh the displayed list
             } else {
-                alert('Incorrect password. Link not removed.');
+                alert('Incorrect password. Film not removed.');
             }
         }
 
@@ -190,7 +208,9 @@
 
             filmItems.forEach(item => {
                 const filmName = item.getAttribute('data-name');
-                item.style.display = filmName.includes(query) ? '' : 'none';
+                const filmGenre = item.getAttribute('data-genre');
+                const searchText = filmName + " " + filmGenre; // Search both by name and genre
+                item.style.display = searchText.includes(query) ? '' : 'none';
             });
         }
 
